@@ -27,7 +27,10 @@ def scoreboard():
 #print name of the winner
 def print_winner(name):
     winnertext = font.render(name + ' wins!', True, (255, 255, 255))
+    resettext = font.render('Press "R" to reset', True, (255, 255, 255))
     screen.blit(winnertext, (300, 80))
+    screen.blit(resettext, (100, 200))
+
 
 #right bar
 score2 = 0
@@ -60,7 +63,7 @@ def draw_ball(ball):
 #freeze ball after someone wins
 def ball_freeze():
     ballX = 100
-    ballY = -100
+    ballY = 20
     ballX_change = 0
     ballY_change = 0
 
@@ -73,6 +76,7 @@ DOWN_down = False
 score_freeze = False
 win = False
 
+
 running = True
 
 while running:
@@ -81,6 +85,18 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
+            #RESET MATCH
+            if event.key == pygame.K_r and win:
+                score1 = 0
+                score2 = 0
+                ballY = random.randint(0, 580)
+                ballX = 395
+                ballY_change = random.randint(-2, 2)
+                goal = False
+                ballX_change = (ball_speed - 2)
+                kickoff_direction = 'right'
+                win = False
+                score_freeze = False
             #left bar controls
             if event.key == pygame.K_w:
                 bar1Y_change = -ball_speed
@@ -119,7 +135,6 @@ while running:
                 bar2Y_change = 0
                 DOWN_down = False
 
-            
     #draw bar1
     bar1Y += bar1Y_change
     bar1Rect = pygame.Rect(bar1X, bar1Y, 20, 100)
@@ -180,6 +195,7 @@ while running:
         else:
             ballX_change = -(ball_speed - 2)
             kickoff_direction = 'left'
+
     if not win:
         #draw ball
         ballX += ballX_change
@@ -188,14 +204,12 @@ while running:
         draw_ball(ballRect)
 
     #check if win
-    if score1 == 10:
+    if score1 == 1:
         print_winner('Player 1')
-        ball_freeze()
         win = True
 
-    if score2 == 10:
+    if score2 == 1:
         print_winner('Player 2')
-        ball_freeze()
         win = True
 
     scoreboard()
