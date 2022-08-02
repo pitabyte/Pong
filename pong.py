@@ -204,11 +204,11 @@ while running:
         draw_ball(ballRect)
 
     #check if win
-    if score1 == 1:
+    if score1 == 10:
         print_winner('Player 1')
         win = True
 
-    if score2 == 1:
+    if score2 == 10:
         print_winner('Player 2')
         win = True
 
